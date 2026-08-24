@@ -28,6 +28,11 @@ dependencies = [
     "protobuf",
 ]
 
+[project.urls]
+Homepage = "https://github.com/RJ-SMTR/pygtfsrealtime"
+Repository = "https://github.com/RJ-SMTR/pygtfsrealtime"
+Issues = "https://github.com/RJ-SMTR/pygtfsrealtime/issues"
+
 [dependency-groups]
 dev = ["pytest", "ruff", "mypy", "pandas-stubs"]
 
