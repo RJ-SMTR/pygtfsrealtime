@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pygtfsrealtime"
+version = "0.1.0"
+description = "Engine to compute and publish GTFS-Realtime feeds from live GPS data matched against a GTFS schedule."
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.11"
+authors = [{ name = "Boris Araujo", email = "marinho.boris@gmail.com" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "pydantic>=2",
+    "pandas>=3",
+    "geopandas",
+    "shapely",
+    "pyproj",
+    "protobuf",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff", "mypy", "pandas-stubs"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pygtfsrealtime"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["src/pygtfsrealtime/pb/gtfs_realtime_pb2.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+# numpy's bundled stubs use PEP 695 `type` aliases, which mypy only parses
+# under python_version >= 3.12 regardless of this project's >=3.11 support.
+python_version = "3.12"
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["geopandas.*", "shapely.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# protoc-generated; still parsed so importers see its symbols, but its own
+# body isn't ours to type-check.
+module = ["pygtfsrealtime.pb.gtfs_realtime_pb2"]
+ignore_errors = true
