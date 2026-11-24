@@ -50,7 +50,7 @@ def build_pb(
 
         pb_vehicle.position.latitude = vehicle.latitude
         pb_vehicle.position.longitude = vehicle.longitude
-        if vehicle.bearing:
+        if vehicle.bearing is not None:
             pb_vehicle.position.bearing = vehicle.bearing
         if vehicle.speed is not None:
             pb_vehicle.position.speed = vehicle.speed
